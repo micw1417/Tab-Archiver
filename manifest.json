@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Tab Archiver",
+  "description": "TODO",
+  "version": "1.0",
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "TabArchiverIcon.png"
+  },
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://fsasfasfasf/safsaafs"],
+      "css": ["popup.css"],
+      "js": ["popup.js"]
+    }
+  ]
+}
