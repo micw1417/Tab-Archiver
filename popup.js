@@ -112,31 +112,20 @@ async function loadScript (previousTabs) {
     const archivedTabs = await getArchivedTabs();
     const tabTemplate = document.getElementById('li_template');
     const clone = tabTemplate.content.cloneNode(true);
-    const currTab = await getCurrentTab();
-
-    console.log(archivedTabs)
-    if (archivedTabs.length > 0) {
-      let containsTab = false;
-      archivedTabs.forEach(element => {
-        if (tabEquals(currTab, element)) containsTab = true;
-      });
-      if (containsTab) return;
-    }
 
     // code basiclly copied
-    clone.querySelector('.title').textContent = currTab.title;
-    clone.querySelector('.pathname').textContent = currTab.url;
+    clone.querySelector('.title').textContent = tab.title;
+    clone.querySelector('.pathname').textContent = tab.url;
     clone.querySelector('a').addEventListener('click', async () => {
-      removeTab(currTab);
+      removeTab(tab);
 
       chrome.tabs.create({
-        url: currTab.url,
+        url: tab.url,
         active: true,
         pinned: false
       });
     });
 
-    archiveTab(currTab);
     document.querySelector('ul').append(clone);
     // const tab = document.createElement("li");
     // tab.innerHTML = "<strong>" + tabTitle + "</strong>" + tabPath
@@ -148,39 +137,4 @@ async function loadScript (previousTabs) {
 function tabEquals(tab1, tab2) {
   console.log(tab1, tab2)
   return tab1.title === tab2.title && tab1.url === tab2.url;
-}
-
-async function makeNewElement() {
-  const archivedTabs = await getArchivedTabs();
-  const tabTemplate = document.getElementById('li_template');
-  const clone = tabTemplate.content.cloneNode(true);
-  const currTab = await getCurrentTab();
-
-  if (archivedTabs.length > 0) {
-    let containsTab = false;
-    archivedTabs.forEach(element => {
-      if (tabEquals(currTab, element)) containsTab = true;
-    });
-    if (containsTab) return;
-  }
-
-  // code basiclly copied
-  clone.querySelector('.title').textContent = currTab.title;
-  clone.querySelector('.pathname').textContent = currTab.url;
-  clone.querySelector('a').addEventListener('click', async () => {
-    removeTab(currTab);
-
-    chrome.tabs.create({
-      url: currTab.url,
-      active: true,
-      pinned: false
-    });
-  });
-
-  archiveTab(currTab);
-  document.querySelector('ul').append(clone);
-  // const tab = document.createElement("li");
-  // tab.innerHTML = "<strong>" + tabTitle + "</strong>" + tabPath
-
-  // document.body.append(tab);
 }
